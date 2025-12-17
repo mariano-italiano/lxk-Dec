@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kubernetes – interaktywna strona</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      color: #fff;
+    }
+
+    header {
+      padding: 40px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+
+    section {
+      padding: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      color: #333;
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #1d2671;
+    }
+
+    .btn {
+      background: #ff9800;
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: #ffc107;
+      transform: scale(1.05);
+    }
+
+    .counter {
+      font-size: 2em;
+      margin-top: 10px;
+      color: #ffeb3b;
+    }
+
+    .quiz {
+      background: rgba(255,255,255,0.15);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🚢 Kubernetes</h1>
+  <p>Interaktywne wprowadzenie do orkiestracji kontenerów</p>
+</header>
+
+<section>
+  <h2>🔹 Podstawowe komponenty</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Pod</h3>
+      <p>Najmniejsza jednostka wdrożeniowa w Kubernetesie.</p>
+    </div>
+    <div class="card">
+      <h3>Node</h3>
+      <p>Maszyna (VM lub fizyczna), na której działają pody.</p>
+    </div>
+    <div class="card">
+      <h3>Service</h3>
+      <p>Zapewnia stabilny dostęp sieciowy do podów.</p>
+    </div>
+    <div class="card">
+      <h3>Deployment</h3>
+      <p>Zarządza wersjami aplikacji i skalowaniem.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>📈 Skalowanie klastra</h2>
+  <p>Kliknij przycisk, aby zasymulować dodanie podów:</p>
+  <button class="btn" onclick="addPod()">➕ Dodaj poda</button>
+  <div class="counter">Liczba podów: <span id="pods">3</span></div>
+</section>
+
+<section>
+  <h2>🧠 Mini-quiz</h2>
+  <div class="quiz">
+    <p><strong>Pytanie:</strong> Który komponent zarządza replikami aplikacji?</p>
+    <button class="btn" onclick="answer(true)">Deployment</button>
+    <button class="btn" onclick="answer(false)">Node</button>
+    <p id="quizResult"></p>
+  </div>
+</section>
+
+<footer>
+  © 2025 • Kubernetes Demo • HTML + CSS + JS
+</footer>
+
+<script>
+  let podCount = 3;
+
+  function addPod() {
+    podCount++;
+    document.getElementById("pods").textContent = podCount;
+  }
+
+  function answer(correct) {
+    const result = document.getElementById("quizResult");
+    if (correct) {
+      result.textContent = "✅ Poprawna odpowiedź!";
+      result.style.color = "#4caf50";
+    } else {
+      result.textContent = "❌ Nie tym razem – poprawna odpowiedź to Deployment.";
+      result.style.color = "#f44336";
+    }
+  }
+</script>
+
+</body>
+</html>
