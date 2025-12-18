@@ -1,0 +1,278 @@
+kubectl get pod -o wide
+kubectl get pod -o wide | grep worker1 |wc -l
+kubectl get pod -o wide | grep worker01 |wc -l
+kubectl get pod -o wide | grep worker02 |wc -l
+kubectl get pod -o wide
+cd lxk-Dec/
+mkdir day2
+cd day2
+vi nodename-pod.yaml
+kubectl apply -f nodename-pod.yaml 
+kubectl get pod -o wide
+cp -rp nodename-pod.yaml nodeselector-pod.yaml
+vi nodeselector-pod.yaml
+kubectl apply -f nodeselector-pod.yaml
+vi nodeselector-pod.yaml
+kubectl apply -f nodeselector-pod.yaml
+kubectl get pod -o wide
+kubectl get nodes  --show-labels 
+kubectl label nodes worker01 location=poland 
+kubectl get pod -o wide
+kubectl describe nodes 
+kubectl get pod -o wide
+kubectl taint node worker02 maintenance=true:NoSchedule 
+kubectl get node | grep -i taint -A2
+kubectl describe node | grep -i taint -A2
+kubectl run test-taint-pod --image httpd 
+kubectl get pod -o wide
+kubectl create deployment test-taint-deploy --image nginx --replicas=5
+kubectl get pod -o wide
+cp -rp nodename-pod.yaml toleration-pod.yaml
+vi toleration-pod.yaml
+kubectl apply -f toleration-pod.yaml
+kubectl get pod -o wide
+vi toleration-pod.yaml
+kubectl delete pod toleration-pod 
+kubectl apply -f toleration-pod.yaml
+kubectl get pod -o wide
+kubectl describe pod toleration-pod 
+vi toleration-pod.yaml
+kubectl delete pod toleration-pod 
+kubectl apply -f toleration-pod.yaml
+kubectl get pod -o wide
+kubectl get noe
+kubectl get node
+vi toleration-pod.yaml
+kubectl taint node worker02 maintenance-
+kubectl describe node | grep -i taint -A2
+kubectl taint node worker02 maintenance=true:NoSchedule 
+kubectl describe node | grep -i taint -A2
+kubectl apply -f toleration-pod.yaml
+kubectl get pod -o wide
+kubectl delete pod toleration-pod 
+kubectl apply -f toleration-pod.yaml
+kubectl get pod -o wide
+kubectl get pod -o wide --show-labels 
+vi nodeaffinity-pod.yaml
+kubectl get pod -o wide
+kubectl taint node worker02 maintenance-
+kubectl describe node | grep -i taint -A2
+kubectl label  node worker01 kubernetes.io/zone=az1
+kubectl label  node worker02 kubernetes.io/zone=az2
+kubectl get pod -o wide
+kubectl label  node worker01 kubernetes.io/country=poland 
+kubectl get node --show-labels 
+kubectl apply -f nodeaffinity-pod.yaml
+kubectl get pod -o wide
+kubectl get pod -o wide --show-labels 
+vi podaffinity-pod.yaml
+kubectl get node --show-labels 
+vi podaffinity-pod.yaml
+kubectl apply -f podaffinity-pod.yaml
+kubectl get pod -o wide --show-labels 
+kubectl get pod -o wide
+vi my-replicaset.yaml
+kubectl apply -f my-replicaset.yaml
+kubectl get po,rs
+kubectl delete deployments.apps test-taint-deploy 
+kubectl get po,rs
+kubectl events\
+kubectl events --sort-by .lastTimestamp
+kubectl get events --sort-by .lastTimestamp
+kubectl get po,rs
+kubectl get po,rs --show-labels 
+kubectl label pod/init-pod tier=frontend
+kubectl get po,rs --show-labels 
+kubectl label pod/init-pod tier-
+kubectl get po,rs --show-labels 
+kubectl scale rs my-replicaset --replicas=10
+kubectl get po,rs --show-labels 
+kubectl scale rs my-replicaset --replicas=1
+kubectl get po,rs --show-labels 
+kubectl scale rs my-replicaset --replicas=3
+kubectl get po,rs --show-labels 
+kubectl delete pod pod/my-replicaset-zfxl9 
+kubectl delete pod my-replicaset-zfxl9 
+kubectl get po,rs --show-labels 
+vi my-deployment.yaml
+kubectl apply -f my-deployment.yaml
+kubectl get po 
+kubectl get po | wc -l 
+kubectl get po --no-headers | wc -l 
+kubectl get po --no-headers
+kubectl get nod
+kubectl get nodea
+kubectl get node
+kubectl drain worker01 --ignore-daemonsets
+kubectl drain worker01 --ignore-daemonsets  --delete-emptydir-data 
+kubectl drain worker01 --ignore-daemonsets  --delete-emptydir-data --force
+kubectl get no 
+kubectl get po 
+kubectl get po --no-headers | wc -l 
+kubectl get po -o wide 
+kubectl uncordon worker01
+kubectl get no 
+kubectl get po -o wide 
+kubectl rollout restart deployment my-deployment 
+kubectl get po -o wide 
+kubectl edit deployments.apps my-deployment 
+kubectl describe deployments.apps my-deployment 
+kubectl set image deployments my-deployment webserver=nginx:1.19.2
+watch -n1 kubectl get p
+watch -n1 kubectl get o
+watch -n1 kubectl get po
+kubectl annotate deployments.apps my-deployment kubernetes.io/change-cause="updated nginx version from 1.14.2 to 1.19.2, implementer: Marcin K., date: 18.12.2025"
+kubectl rollout history deployment my-deployment 
+kubectl edit deployments.apps my-deployment 
+watch -n1 kubectl get po
+kubectl rollout history deployment my-deployment 
+kubectl edit deployments.apps my-deployment 
+kubectl set image deployments my-deployment webserver=nginx:broken
+watch -n1 kubectl get po
+kubectl rollout status deployment my-deployment 
+kubectl rollout history deployment my-deployment 
+kubectl rollout undo deployment my-deployment --to-revision 3
+kubectl rollout status deployment my-deployment 
+kubectl describe deployments.apps my-deployment 
+kubectl get po
+kubectl get node
+kubectl describe node | grep -i taint -A2
+kubectl get node
+kubectl get po
+kubectl get po -o wide
+kubectl get node
+kubectl describe node | grep -i taint -A2
+kubectl get po --field-selector="status.phase!=Running"
+kubectl get po --field-selector="status.phase=Evicted"
+kubectl get po --field-selector="status.phase==Evicted"
+kubectl get po --field-selector="status.phase!=Running,status.phase!=ContainerStatusUnknown"
+kubectl get po --field-selector="status.phase!=Evicted"
+kubectl get po --field-selector="status.phase!=Running,status.phase!=ContainerStatusUnknown"
+kubectl delete po --field-selector="status.phase!=Running,status.phase!=ContainerStatusUnknown"
+kubectl get po
+kubectl describe node | grep -i taint -A2
+kubectl rollout restart deployment my-deployment 
+kubectl get po -o wide
+kubectl rs,deploy
+kubectl get rs,deploy
+kubectl rollout history deployment my-deployment 
+kubectl describe rs my-deployment-7bd468846
+kubectl describe rs my-deployment-5dbf4d776b
+kubectl get rs --no-headers 
+kubectl get rs --no-headers |grep my-deployment
+kubectl get rs --no-headers |grep my-deployment | awk '{print $1}'
+for i in $(kubectl get rs --no-headers |grep my-deployment | awk '{print $1}') do; echo $i ; done
+for i in $(kubectl get rs --no-headers |grep my-deployment | awk '{print $1}') ; do echo $i ; done
+for i in $(kubectl get rs --no-headers |grep my-deployment | awk '{print $1}') ; do echo $i;kubectl describe rs $i | grep deployment.kubernetes.io/revision  ; done
+kubectl rollout history deployment my-deployment 
+kubectl delete rs my-deployment-5b598bb7d9
+kubectl rollout history deployment my-deployment 
+for i in $(kubectl get rs --no-headers |grep my-deployment | awk '{print $1}') ; do echo $i;kubectl describe rs $i | grep deployment.kubernetes.io/revision  ; done
+kubectl edit deployments.apps my-deployment 
+kubectl get po
+kubectl set image deployments my-deployment webserver=nginx:1.11.111 
+kubectl get po
+kubectl set image deployments my-deployment webserver=nginx:1.19.2
+kubectl get po
+vi liveness-pod.yaml
+kubectl apply -f liveness-pod.yaml
+kubectl get po 
+watch -n1 kubectl get po
+kubectl logs liveness-pod 
+kubectl describe pod liveness-pod 
+watch -n1 kubectl get po
+kubectl describe pod liveness-pod 
+kubectl delete pod liveness-pod 
+cp -rp ../day1/nginx-pod.yaml readiness-pod.yaml
+vi readiness-pod.yaml
+kubectl apply -f readiness-pod.yaml
+watch -n1 kubectl get po
+vi pi-job.yaml
+kubectl apply -f pi-job.yaml 
+vi pi-job.yaml 
+kubectl get po,job
+watch 0n1 kubectl get po,job
+watch -n1 kubectl get po,job
+vi prallel-job.yaml
+kubectl apply -f prallel-job.yaml
+watch -n1 kubectl get po,job
+kubectl logs jobs/parallel-job 
+kubectl logs jobs/pi-job 
+kubectl get po
+kubectl delete jobs.batch parallel-job 
+kubectl get po
+ls -l 
+mv prallel-job.yaml parallel-job.yaml
+vi parallel-job.yaml
+kubectl apply -f parallel-job.yaml
+watch -n1 kubectl get po,job
+vi parallel-job.yaml 
+vi hello-cronjob.yaml
+kubectl apply -f hello-cronjob.yaml
+watch -n1 kubectl get po,job,cj
+kubectl delete cj hello-cronjob 
+watch -n1 kubectl get po,job,cj
+kubectl get po
+kubectl delete all --all 
+kubectl get po
+kubectl aply -f my-deployment.yaml 
+kubectl apply -f my-deployment.yaml 
+vi my-daemonset.yaml
+kubectl apply -f my-daemonset.yaml
+kubectl get po -owide
+vi my-daemonset.yaml 
+kubectl replace --force -f my-daemonset.yaml
+kubectl get po -owide
+kubectl edit ds my-daemonset 
+kubectl get po -owide
+kubectl rollout restart deployment my-deployment 
+kubectl get po -owide
+kubectl get svc
+vi my-sts.yaml
+kubectl apply -f my-sts.yaml
+kubectl get sts,po,svc
+kubectl scale statefulset my-sts --replicas 8
+watch -n1 kubectl get po
+kubectl scale statefulset my-sts --replicas 2
+watch -n1 kubectl get po
+kubectl get po
+kubectl get po -o wide
+vi ../day1/sidecar-pod.yaml
+vi ../day1/test-pod.yaml 
+vi ../day1/ubuntu-pod.yaml
+kubectl apply -f ../day1/ubuntu-pod.yaml
+kubectl get po 
+kubectl exec -it ubuntu-pod -- bash
+kubectl get po --show-labels 
+kubectl expose deployment my-deployment --port80 --name cluster-ip-svc 
+kubectl expose deployment my-deployment --port 80 --name cluster-ip-svc 
+kubectl get svc,ep,pod -o wide
+kubectl get po --show-labels 
+kubectl label statefulsets.apps my-sts app=sts
+kubectl get po --show-labels 
+kubectl edit sts my-sts 
+kubectl delete sts my-sts 
+kubectl get svc,ep,pod -o wide
+kubectl get ep
+kubectl get es
+kubectl get eps
+kubectl get endpointslices.discovery.k8s.io \
+kubectl get endpointslices.discovery.k8s.io 
+kubectl get po,svc
+vi nginx-with-podname.yaml
+kubectl apply -f nginx-with-podname.yaml
+vi nginx-with-podname.yaml
+kubectl get svc
+kubectl get po
+kubectl expose deployment nginx-with-podname --name nodeport-svc --port 80 
+kubectl get svc
+kubectl delete svc nodeport-svc 
+kubectl expose deployment nginx-with-podname --name nodeport-svc --port 80 --type NodePort
+kubectl get svc
+kubectl expose deployment nginx-with-podname --name lb-svc --port 80 --type LoadBalancer
+kubectl get svc
+kubectl edit svc lb-svc 
+kubectl get svc
+cd ..
+history
+history | awk '$1 > 288' | cut -c 8- > day2-history.txt
