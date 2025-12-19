@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kwiaty Świata</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(120deg, #e8f5e9, #f1f8e9);
+            color: #2e7d32;
+            text-align: center;
+        }
+
+        header {
+            height: 100vh;
+            background: url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6") center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: brightness(0.9);
+        }
+
+        h1 {
+            font-size: 4rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 250px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.4s;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="title">Kwiaty</h1>
+    <p id="subtitle">Piękno natury każdego dnia 🌸</p>
+</header>
+
+<section class="cards">
+    <div class="card">🌹 Róże – symbol miłości</div>
+    <div class="card">🌻 Słoneczniki – energia słońca</div>
+    <div class="card">🌷 Tulipany – elegancja</div>
+</section>
+
+<script>
+    const texts = ["Kwiaty", "Natura", "Kolory", "Zapach"];
+    let index = 0;
+
+    setInterval(() => {
+        document.getElementById("title").textContent = texts[index];
+        index = (index + 1) % texts.length;
+    }, 2000);
+</script>
+
+</body>
+</html>
+

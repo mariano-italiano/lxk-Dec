@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubectl-cronjob-sa
+  namespace: default
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: node-labeler
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "pods"]
+  verbs: ["get", "list", "patch", "update"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubectl-cronjob-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: node-labeler
+subjects:
+- kind: ServiceAccount
+  name: kubectl-cronjob-sa
+  namespace: default
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: node-labeler-cronjob
+  namespace: default
+spec:
+  schedule: "* * * * *"  # co 5 minut
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: kubectl-cronjob-sa
+          restartPolicy: OnFailure
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Starting node labeling job..."
+              
+              # Pobierz wszystkie nody
+              nodes=$(kubectl get nodes -o jsonpath='{.items[*].metadata.name}')
+              
+              for node in $nodes; do
+                echo "Processing node: $node"
+                
+                # Sprawdź ile podów jest na nodzie
+                pod_count=$(kubectl get pods --all-namespaces --field-selector spec.nodeName=$node --no-headers | wc -l)
+                
+                # Labeluj node w zależności od liczby podów
+                if [ $pod_count -gt 10 ]; then
+                  kubectl label node $node load=high --overwrite
+                  echo "  -> Labeled as high load ($pod_count pods)"
+                elif [ $pod_count -gt 5 ]; then
+                  kubectl label node $node load=medium --overwrite
+                  echo "  -> Labeled as medium load ($pod_count pods)"
+                else
+                  kubectl label node $node load=low --overwrite
+                  echo "  -> Labeled as low load ($pod_count pods)"
+                fi
+                
+              done
+              
+              echo "Node labeling completed!"

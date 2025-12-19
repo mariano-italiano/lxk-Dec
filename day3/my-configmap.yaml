@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data: 
+  key1: value1 
+  portNumber: "8080" 
+  monitoringEnabled: "false" 
+  config.json: |
+    { "attr1": "value1",
+    "attr2": "value2" }
+  lastKey: |
+    dfsgasf dsaf 
+    adsf asdf 
+    safdasdfasdf
+    as dfs adfas
+     asd fasd
+      sa
+      f dasfd a
+

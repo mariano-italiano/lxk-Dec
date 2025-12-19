@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-private-registry
+spec:
+  containers:
+  - name: web
+    image: 192.168.1.222/lxk/postfix:1.0
+    ports:
+      - containerPort: 25
+  imagePullSecrets:
+  - name: harbor-creds

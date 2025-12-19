@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Świat Samochodów</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0d0d0d;
+            color: white;
+        }
+
+        header {
+            height: 100vh;
+            background: url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            animation: slide 1.5s ease-out;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px;
+            background: #111;
+        }
+
+        .stat {
+            font-size: 2rem;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: crimson;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: darkred;
+            transform: scale(1.1);
+        }
+
+        @keyframes slide {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Samochody</h1>
+    <p>Prędkość. Moc. Technologia.</p>
+    <button onclick="boost()">Dodaj moc 🚀</button>
+</header>
+
+<section class="stats">
+    <div class="stat">⚡ Moc: <span id="power">300</span> KM</div>
+    <div class="stat">🏎️ Prędkość: 250 km/h</div>
+    <div class="stat">🔥 0–100: 3.5s</div>
+</section>
+
+<script>
+    let power = 300;
+    function boost() {
+        power += 50;
+        document.getElementById("power").textContent = power;
+    }
+</script>
+
+</body>
+</html>
+

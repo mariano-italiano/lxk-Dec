@@ -1,0 +1,10 @@
+
+# app1 details
+BRANCH=develop
+VER="1.0"
+APP1_PATH=/opt/data/applications/app1
+
+# os config details
+OS_KIND=linux
+KERNEL_VER=4.18
+

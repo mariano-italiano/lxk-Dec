@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: busy-test
+  name: busy-test
+spec:
+  containers:
+  - image: nicolaka/netshoot
+    name: busy-test
+    command: ['sh', '-c', 'sleep 1d']
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
